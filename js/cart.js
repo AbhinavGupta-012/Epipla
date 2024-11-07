@@ -1,18 +1,15 @@
 // Cart functionality
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-let cartCount = document.querySelector('.cart-count');
 
-// Update cart count
 function updateCartCount() {
-    const count = cart.reduce((total, item) => total + item.quantity, 0);
-    cartCount = document.querySelector('.cart-count');
+    const cartCount = document.querySelector('.cart-count');
     if (cartCount) {
-        cartCount.textContent = count;
-        cartCount.style.display = count > 0 ? 'block' : 'none';
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        cartCount.textContent = totalItems;
+        cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
     }
 }
 
-// Add to cart
 function addToCart(product) {
     const existingItem = cart.find(item => item.id === product.id);
     
@@ -20,10 +17,7 @@ function addToCart(product) {
         existingItem.quantity += 1;
     } else {
         cart.push({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            image: product.image,
+            ...product,
             quantity: 1
         });
     }
@@ -32,7 +26,6 @@ function addToCart(product) {
     updateCartCount();
 }
 
-// Remove from cart
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -40,7 +33,6 @@ function removeFromCart(productId) {
     displayCart();
 }
 
-// Update quantity
 function updateQuantity(productId, change) {
     const item = cart.find(item => item.id === productId);
     if (item) {
@@ -55,7 +47,6 @@ function updateQuantity(productId, change) {
     }
 }
 
-// Display cart items
 function displayCart() {
     const cartContainer = document.getElementById('cart-items');
     const totalItems = document.getElementById('total-items');
@@ -65,8 +56,8 @@ function displayCart() {
     
     if (cart.length === 0) {
         cartContainer.innerHTML = '<div class="empty-cart"><p>Your cart is empty</p></div>';
-        totalItems.textContent = '0';
-        totalAmount.textContent = '0';
+        if (totalItems) totalItems.textContent = '0';
+        if (totalAmount) totalAmount.textContent = '0.00';
         return;
     }
     
@@ -82,7 +73,7 @@ function displayCart() {
                 <img src="${item.image}" alt="${item.name}">
                 <div class="item-details">
                     <h3>${item.name}</h3>
-                    <p>₹${item.price}</p>
+                    <p>₹${item.price.toFixed(2)}</p>
                 </div>
                 <div class="quantity-controls">
                     <button onclick="updateQuantity(${item.id}, -1)">-</button>
@@ -95,12 +86,14 @@ function displayCart() {
     });
     
     cartContainer.innerHTML = html;
-    totalItems.textContent = itemCount;
-    totalAmount.textContent = total.toFixed(2);
+    if (totalItems) totalItems.textContent = itemCount;
+    if (totalAmount) totalAmount.textContent = total.toFixed(2);
 }
 
 // Initialize cart display
-updateCartCount();
-if (window.location.pathname.includes('cart.html')) {
-    displayCart();
-}
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartCount();
+    if (window.location.pathname.includes('cart.html')) {
+        displayCart();
+    }
+});
