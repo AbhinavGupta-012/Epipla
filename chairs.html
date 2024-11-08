@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chairs - Epipla</title>
+    <title> Chair - Epipla </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="products.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/products.css">
 </head>
 <body>
     <header>
@@ -24,7 +24,7 @@
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-            <button class="signup-btn">Sign Up</button>
+            <button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>
             <a href="cart.html" class="cart-icon" title="View your shopping cart">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count">0</span>
@@ -75,11 +75,11 @@
                 <h2>Connect With Us</h2>
                 <nav>
                     <ul>
-                        <li>📧 info@epipla.com </li>
-                        <li>📞 7986130237 </li>
-                        <li>📍 Chandigarh </li>
+                        <li>📧 info@epipla.com</li>
+                        <li>📞 7986130237</li>
+                        <li>📍 Chandigarh</li>
                         <li class="social-icons">
-                            <a href="https://www.instagram.com/epipla.12/" target="_blank" class="instagram-icon" title="Follow us on Instagram">
+                            <a href="https://www.instagram.com/epipla.12/" target="_blank" class="instagram-icon">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         </li>
@@ -90,12 +90,13 @@
         <p class="copyright">Copyright &copy; 2024 Modern Furniture. All rights reserved.</p>
     </footer>
 
+    <!-- Load Firebase first -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-
-<!-- Firebase Database (add as needed) -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <!-- Then load our configuration -->
+    <script src="js/firebase-config.js"></script>
+    <!-- Finally load our application scripts -->
     <script src="js/cart.js"></script>
-    <script type="module" src="js/products.js"></script>    
+    <script src="js/products.js"></script>
 </body>
 </html>

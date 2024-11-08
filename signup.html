@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+    <title>Sign Up - Epipla</title>
+    <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel = "stylesheet" href = "css/style.css">
+    <link rel = "stylesheet" href = "css/signup.css">
+</head>
+<body>
+    <header>
+        <div class = "main_nav">
+            <img src = "/vite.svg" alt = "Logo" id = "logo">
+            <nav class = "nav-links">
+                <a href = "NEW.html" class = "buttons1">Home</a>
+                <a href = "#" class = "buttons1">Shop</a>
+                <a href = "#" class = "buttons1">About Us</a>
+                <a href = "#" class = "buttons1">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class = "signup-container">
+        <div class = "signup-content">
+            <div class = "signup-image">
+                <img src = "https://images.unsplash.com/photo-1631679706909-1844bbd07221?q = 80&w = 1992&auto = format&fit = crop" alt = "Modern Furniture">
+            </div>
+            <div class = "signup-form">
+                <h1>Create Account</h1>
+                <p class = "subtitle">Join our community of furniture enthusiasts</p>
+                
+                <form id = "signupForm" onsubmit = "event.preventDefault(); sign();">
+                    <div class = "form-group">
+                        <label for = "name">Full Name</label>
+                        <input type = "text" id = "name" required>
+                    </div>
+                    
+                    <div class = "form-group">
+                        <label for = "email">Email Address</label>
+                        <input type = "email" id = "email" required>
+                    </div>
+                    
+                    <div class = "form-group">
+                        <label for = "username">Username</label>
+                        <input type = "text" id = "username" required>
+                    </div>
+                    
+                    <div class = "form-group">
+                        <label for = "pwd">Password</label>
+                        <input type = "password" id = "pwd" required>
+                    </div>
+                    
+                    <div class = "form-group">
+                        <label for = "cpwd">Confirm Password</label>
+                        <input type = "password" id = "cpwd" required>
+                    </div>
+                    
+                    <button type = "submit" class = "signup-submit">Create Account</button>
+                    <p class = "login-link">Already have an account? <a href = "login.html">Log in</a></p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div id = "links">
+            <div class = "footer" id = "aboutus">
+                <h2> About Us </h2>
+                <nav>
+                    <ul>
+                        <li><a href = "#"> Our Story </a></li>
+                        <li><a href = "#"> Showrooms </a></li>
+                        <li><a href = "#"> Design Services </a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class = "footer" id = "customer_services">
+                <h2> Customer Services </h2>
+                <nav>
+                    <ul>
+                        <li> <a href = "#"> FAQ's </a> </li>
+                        <li> <a href = "#"> Returns & Exchanges </a> </li>
+                        <li> <a href = "#"> Shipping Information </a> </li>
+                        <li> <a href = "#"> Care Instructions </a> </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class = "footer" id = "contact">
+                <h2> Connect With Us </h2>
+                <nav>
+                    <ul>
+                        <li> 📧 info@epipla.com </li>
+                        <li> 📞 7986130237 </li>
+                        <li> 📍 Chandigarh </li>
+                        <li class = "social-icons">
+                            <a href = "https://www.instagram.com/epipla.12/" target = "_blank" class = "instagram-icon">
+                                <i class = "fab fa-instagram"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <p class = "copyright"> Copyright &copy; 2024 Modern Furniture. All rights reserved. </p>
+    </footer>
+
+    <script src = "js/signup.js"></script>
+</body>
+</html> 

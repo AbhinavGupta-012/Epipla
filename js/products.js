@@ -1,19 +1,4 @@
-// Firebase Configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyC9Me9ZjSvuXrJeMjU-_P_wvMHAkYIk-po",
-    authDomain: "epipla-bc50c.firebaseapp.com",
-    databaseURL: "https://epipla-bc50c-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "epipla-bc50c",
-    storageBucket: "epipla-bc50c.firebasestorage.app",
-    messagingSenderId: "1081884443035",
-    appId: "1:1081884443035:web:845da94b965ec07f03213e"
-  };
-
-// Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.database(app);
-
-// Display products
+// Get database reference from global scope
 function displayProducts(products) {
     const grid = document.getElementById('chairs-grid');
     if (!grid) return;
@@ -26,7 +11,7 @@ function displayProducts(products) {
                 <p class="price">₹${product.price.toFixed(2)}</p>
                 <p class="description">${product.description}</p>
             </div>
-            <button class="add-to-cart" onclick='addToCart(${product.id})'>
+            <button class="add-to-cart" onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})">
                 Add to Cart
             </button>
         </div>
@@ -47,10 +32,12 @@ async function fetchAndStoreProducts(category) {
             description: item.alt_description || `Beautiful ${category}`
         }));
 
+        const updates = {};
         products.forEach(product => {
-            db.ref(`products/${category}/${product.id}`).set(product);
+            updates[`products/${category}/${product.id}`] = product;
         });
 
+        await window.db.ref().update(updates);
         displayProducts(products);
     } catch (error) {
         console.error('Error fetching and storing products:', error);
@@ -59,33 +46,35 @@ async function fetchAndStoreProducts(category) {
 
 // Retrieve products from Firebase
 function getProductsFromFirebase(category) {
-    db.ref(`products/${category}`).once('value', snapshot => {
-        const products = [];
-        snapshot.forEach(childSnapshot => {
-            products.push(childSnapshot.val());
+    window.db.ref(`products/${category}`).once('value')
+        .then(snapshot => {
+            const products = [];
+            snapshot.forEach(childSnapshot => {
+                products.push(childSnapshot.val());
+            });
+
+            if (products.length > 0) {
+                displayProducts(products);
+            } else {
+                fetchAndStoreProducts(category);
+            }
+        })
+        .catch(error => {
+            console.error('Error retrieving products:', error);
         });
-
-        if (products.length > 0) {
-            displayProducts(products);
-        } else {
-            // Fetch from Unsplash API if Firebase is empty
-            fetchAndStoreProducts(category);
-        }
-    });
-}
-
-// Add to Cart function
-function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    if (product) {
-        console.log(`Added to cart: ${product.name}`);
-    } else {
-        console.error('Product not found for cart addition');
-    }
 }
 
 // Initialize products on page load
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const category = document.title.split(' - ')[0].toLowerCase();
-    getProductsFromFirebase(category);
+    const products = await getProductsFromFirebase(category);
+
+    const sortSelect = document.getElementById('sort-by');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            const sortedProducts = sortProducts(products, e.target.value);
+            displayProducts(sortedProducts);
+        });
+    }
+    displayProducts(products);
 });
